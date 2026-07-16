@@ -1,19 +1,11 @@
 {
-  "name": "market-filings-mcp",
+  "name": "market-filings-mcp-bootstrap",
   "version": "0.1.0",
   "private": true,
-  "description": "Skybridge MCP connector for Yahoo Finance market data and SEC EDGAR filings",
   "type": "module",
   "scripts": {
-    "dev": "skybridge dev",
-    "dev:tunnel": "skybridge dev --tunnel",
-    "build": "skybridge build",
-    "start": "skybridge start",
-    "deploy": "alpic deploy",
-    "typecheck": "tsc --noEmit",
-    "smoke": "tsx scripts/smoke.ts",
-    "check": "npm run typecheck && npm run build && npm run smoke:offline",
-    "smoke:offline": "tsx scripts/offline-smoke.ts"
+    "postinstall": "tar -xzf mcp-source.tgz",
+    "build": "skybridge build"
   },
   "dependencies": {
     "@modelcontextprotocol/sdk": "^1.29.0",
@@ -31,7 +23,6 @@
     "@types/node": "^24.12.0",
     "@types/react": "^19.2.17",
     "@types/react-dom": "^19.2.3",
-    "alpic": "^1.136.3",
     "tsx": "^4.21.0",
     "typescript": "^6.0.2"
   },
