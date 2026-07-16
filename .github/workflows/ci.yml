@@ -24,7 +24,26 @@ jobs:
           node-version: "24.14.1"
 
       - name: Install dependencies
-        run: npm install --no-audit --no-fund
+        shell: bash
+        run: |
+          set +e
+          npm install --no-audit --no-fund > npm-install.log 2>&1
+          status=$?
+          if [ "$status" -ne 0 ]; then
+            tail -n 80 npm-install.log
+          else
+            cat npm-install.log
+          fi
+          exit "$status"
+
+      - name: Upload installation diagnostics
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: npm-install-diagnostics
+          path: npm-install.log
+          if-no-files-found: ignore
+          retention-days: 1
 
       - name: Build MCP server
         run: npm run build
